@@ -4,14 +4,15 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>СЕРВЛЕТ</title>
+    <title>SERVLET</title>
   </head>
   <body>
     <div>
-        "${time}"
+        ${time}
     </div>
     <h1>
-        "${path}"
+        ${path}
+        <hr>
     </h1>
     <div>
         <div>

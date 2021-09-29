@@ -17,12 +17,15 @@ public class FileDescription {
     private final String date;
 
     public FileDescription(String url, File file) throws IOException {
-        if(file.isDirectory()){
+        if(file.isDirectory()) {
             this.URL = url+"?path="+file.getAbsolutePath().replace(' ','+');
             this.fileName = "📁"+file.getName().substring(0, Math.min(file.getName().length(), 20));
-        } else{
-            this.URL = "download"+("?path="+ Paths.get(file.getPath())).replace(' ','+');
-            this.fileName = "📄"+file.getName().substring(0,Math.min(file.getName().length(), 20));
+        }
+        else {
+            this.URL = "download"+("?path="+ Paths.get(file.getPath()))
+                    .replace(' ','+');
+            this.fileName = "📄" + file.getName()
+                    .substring(0,Math.min(file.getName().length(), 20));
         }
         this.fileLength = file.length();
         this.length = fileLength != 0 ? fileLength+"B" : "";
