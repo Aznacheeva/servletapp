@@ -35,6 +35,8 @@ public class FileDescription {
     }
 
     public static ArrayList<FileDescription> getArray(File[] files, String url) {
+        if (files == null)
+            files = new File[0];
         ArrayList<FileDescription> result = new ArrayList<>();
         for (File file : files) {
             try {

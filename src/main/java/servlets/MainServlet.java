@@ -24,8 +24,7 @@ public class MainServlet extends HttpServlet {
         File dir = new File(path);
         File[] arrFiles = dir.listFiles();
         ArrayList<FileDescription> models = FileDescription
-                .getArray(arrFiles == null ? new File[0] : arrFiles,
-                        req.getRequestURL().toString());
+                .getArray(arrFiles, req.getRequestURL().toString());
         req.setAttribute("time", new SimpleDateFormat("dd.MM.yyyy hh:mm:ss")
                 .format(new Date()));
         req.setAttribute("path", path);
