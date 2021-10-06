@@ -1,8 +1,6 @@
 package acccounts;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
 
 public class Verification {
 

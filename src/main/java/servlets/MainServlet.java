@@ -50,25 +50,5 @@ public class MainServlet extends HttpServlet {
                 req.getRequestURL().toString() + "?path=" + dir.getParent());
         req.setAttribute("list", fileDescriptions);
         req.getRequestDispatcher("page.jsp").forward(req, resp);
-
-
-
-
-
-        /*
-        Код для MainServlet в третьем блоке:
-
-        Map<String, String[]> parameterMap = req.getParameterMap();
-        String path = parameterMap.get("path")[0];
-        File dir = new File(path);
-        File[] arrFiles = dir.listFiles();
-        ArrayList<FileDescription> models = FileDescription
-                .getArray(arrFiles, req.getRequestURL().toString());
-        req.setAttribute("time", new SimpleDateFormat("dd.MM.yyyy hh:mm:ss")
-                .format(new Date()));
-        req.setAttribute("path", path);
-        req.setAttribute("parent", req.getRequestURL().toString() + "?path=" + dir.getParent());
-        req.setAttribute("list", models);
-        req.getRequestDispatcher("page.jsp").forward(req, resp);*/
     }
 }
