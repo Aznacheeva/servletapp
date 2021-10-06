@@ -4,9 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>SERVLET</title>
+    <title>Файлы</title>
   </head>
   <body>
+    <form action="/logout" method="get">
+        <input type="submit" value="Выйти">
+    </form>
     <div>
         ${time}
     </div>
