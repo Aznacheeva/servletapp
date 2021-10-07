@@ -32,7 +32,7 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email");
         UserProfile userProfile = new UserProfile(login, password, email);
         AccountService.addNewUser(userProfile);
-        AccountService.addSession(sessionId, userProfile);
+        AccountService.addSession(sessionId.split("[:@]")[1], userProfile);
         resp.sendRedirect("/files");
     }
 }

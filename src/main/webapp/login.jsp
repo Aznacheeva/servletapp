@@ -7,11 +7,16 @@
     </head>
     <body>
         <form action = "/login" method = "post">
-            Логин: <input type="text" name="login"/>
+            <b>Логин</b>
             <br>
-            Пароль: <input type="password" name="password"/>
+            <input type="text" name="login"/>
+            <br>
+            <b>Пароль</b>
+            <br>
+            <input type="password" name="password"/>
             <br>
             <input type="submit" value="Войти">
+            <br>
         </form>
         <form action="/registration">
             <input type="submit" value="Регистрация">

@@ -7,13 +7,16 @@
     </head>
     <body>
     <form method="post" action="/registration">
-        Придумайте логин
+        <b>Придумайте логин</b>
+        <br>
         <input name = "login">
         <br>
-        Придумайте пароль
+        <b>Придумайте пароль</b>
+        <br>
         <input type ="password" name = "password">
         <br>
-        Введите email
+        <b>Введите email</b>
+        <br>
         <input name = "email">
         <p><input type="submit" value="Создать аккаунт"></p>
         ${message}

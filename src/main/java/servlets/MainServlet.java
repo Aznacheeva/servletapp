@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @WebServlet(urlPatterns = {"/files"})
 public class MainServlet extends HttpServlet {
@@ -44,7 +45,7 @@ public class MainServlet extends HttpServlet {
         File[] arrFiles = dir.listFiles();
         ArrayList<FileDescription> fileDescriptions = FileDescription.getArray(arrFiles,
                 req.getRequestURL().toString());
-        req.setAttribute("time", (new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").toString()));
+        req.setAttribute("time", (new SimpleDateFormat("dd.MM.yyyy hh:mm:ss")).format(new Date()));
         req.setAttribute("path", dir.getAbsolutePath());
         req.setAttribute("parent",
                 req.getRequestURL().toString() + "?path=" + dir.getParent());

@@ -7,12 +7,12 @@
     <title>Файлы</title>
   </head>
   <body>
-    <form action="/logout" method="get">
-        <input type="submit" value="Выйти">
-    </form>
     <div>
         ${time}
     </div>
+    <form action="/logout" method="get">
+        <input type="submit" value="Выйти">
+    </form>
     <h1>
         ${path}
         <hr>
@@ -25,9 +25,9 @@
         </div>
         <table>
             <tr>
-                <th>FILE</th>
-                <th>CAPACITY</th>
-                <th>DATE</th>
+                <th>ФАЙЛ</th>
+                <th>РАЗМЕР</th>
+                <th>ДАТА</th>
             </tr>
             <c:forEach items="${list}" var="file">
             <tr>
