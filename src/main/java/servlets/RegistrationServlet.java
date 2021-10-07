@@ -26,13 +26,13 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String sessionId = req.getSession().toString();
+        String sessionId = req.getSession().getId();
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
         UserProfile userProfile = new UserProfile(login, password, email);
         AccountService.addNewUser(userProfile);
-        AccountService.addSession(sessionId.split("[:@]")[1], userProfile);
+        AccountService.addSession(sessionId, userProfile);
         resp.sendRedirect("/files");
     }
 }
