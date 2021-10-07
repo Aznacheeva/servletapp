@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Login</title>
+        <title>Вход</title>
     </head>
     <body>
         <form action = "/login" method = "post">
