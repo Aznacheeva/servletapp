@@ -29,10 +29,8 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         UserProfile user = AccountService.getUserByLogin(login);
-        if (user == null || !password.equals(user.getPassword())) {
-            resp.sendRedirect("/login?message=incorrect");
+        if (user == null || !password.equals(user.getPassword()))
             return;
-        }
         AccountService.addSession(sessionId, user);
         resp.sendRedirect("/files");
     }

@@ -5,8 +5,7 @@ import java.io.File;
 public class Verification {
 
     public static void CheckDir(File file) {
-        if(!file.exists())
-            file.mkdir();
+        if(!file.exists()) file.mkdir();
     }
 
     public static boolean DirectoryIsInvisible(String login, String homeDir, String dir) {
