@@ -33,10 +33,6 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email");
         if (Verification.loginOrPassIsEmpty(login, password, resp))
             return;
-        /*if (login.equals("") || password.equals("")) {
-            resp.sendRedirect("/login");
-            return;
-        }*/
         UserProfile userProfile = new UserProfile(login, password, email);
         DBService.addUser(userProfile);
         AccountService.addSession(sessionId, userProfile);

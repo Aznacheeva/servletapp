@@ -21,12 +21,12 @@ public class Executor {
     public <T> T execQuery(String query,
                            ResultHandler<T> handler)
             throws SQLException {
-        Statement stmt = connection.createStatement();
-        stmt.execute(query);
-        ResultSet result = stmt.getResultSet();
-        T value = handler.handle(result);
-        result.close();
-        stmt.close();
+        Statement statement = connection.createStatement();
+        statement.execute(query);
+        ResultSet resultSet = statement.getResultSet();
+        T value = handler.handle(resultSet);
+        resultSet.close();
+        statement.close();
 
         return value;
     }

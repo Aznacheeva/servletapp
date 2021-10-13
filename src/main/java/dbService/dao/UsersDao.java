@@ -30,15 +30,4 @@ public class UsersDao {
     public void createTable() throws SQLException {
         executor.execUpdate("create table if not exists java_servlets.profiles (login varchar(15), password varchar(20), email varchar(40))");
     }
-
-    public void dropTable() throws SQLException {
-        executor.execUpdate("drop table java_servlets.profiles");
-    }
-
-    public String getLogin(String email) throws SQLException {
-        return executor.execQuery("select * from java_servlets.profiles where email='" + email + "'", result -> {
-            result.next();
-            return result.getString(1);
-        });
-    }
 }

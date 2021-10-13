@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         UserProfile user = DBService.getUser(login);
-        //UserProfile user = AccountService.getUserByLogin(login);
         if (user == null || !password.equals(user.getPassword()))
             return;
         AccountService.addSession(sessionId, user);

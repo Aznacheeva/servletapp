@@ -36,15 +36,6 @@ public class DBService {
         }
     }
 
-    //todo можно убрать
-    public static String getLogin(String email){
-        try {
-            return (new UsersDao(connection).getLogin(email));
-        } catch (SQLException e) {
-            return null;
-        }
-    }
-
 
     public static UserProfile getUser(String login){
         try {
