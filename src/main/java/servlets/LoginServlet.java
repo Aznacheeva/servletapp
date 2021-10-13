@@ -3,6 +3,7 @@ package servlets;
 import acccounts.AccountService;
 import acccounts.UserProfile;
 import acccounts.Verification;
+import dbService.DBService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +20,6 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect("/files");
             return;
         }
-
         req.getRequestDispatcher("login.jsp").forward(req, resp);
     }
 
@@ -28,7 +28,8 @@ public class LoginServlet extends HttpServlet {
         String sessionId = req.getSession().getId();
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        UserProfile user = AccountService.getUserByLogin(login);
+        UserProfile user = DBService.getUser(login);
+        //UserProfile user = AccountService.getUserByLogin(login);
         if (user == null || !password.equals(user.getPassword()))
             return;
         AccountService.addSession(sessionId, user);
