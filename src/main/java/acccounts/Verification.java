@@ -11,6 +11,10 @@ public class Verification {
     }
 
     public static boolean DirectoryIsInvisible(String login, String homeDir, String dir) {
+        try {
+            dir = new File(dir).getCanonicalPath();
+        } catch (IOException ignored) {
+        }
         String[] homeDirectoryDecomposition = homeDir.split("\\\\");
         String[] directoryDecomposition = dir.split("\\\\");
         return directoryDecomposition.length <= homeDirectoryDecomposition.length
