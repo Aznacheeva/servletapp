@@ -2,7 +2,6 @@ package dbService;
 
 import acccounts.UserProfile;
 import dbService.dao.UsersDao;
-import dbService.executor.Executor;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -12,7 +11,15 @@ import java.sql.SQLException;
 public class DBService {
     private static Connection connection = null;
 
-    static { createConnection(); }
+    static {
+        createConnection();
+        UsersDao dao = new UsersDao(connection);
+        try {
+            dao.createTable();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
     private static void createConnection() {
         if (connection != null) return;
@@ -29,8 +36,6 @@ public class DBService {
                     append("user=root&").          //login
                     append("password=oracleshot");       //password
             connection = DriverManager.getConnection(url.toString());
-            Executor executor = new Executor(connection);
-            System.out.println("URL: " + url + "\n");
         } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -49,7 +54,6 @@ public class DBService {
         try {
             connection.setAutoCommit(false);
             UsersDao dao = new UsersDao(connection);
-            dao.createTable();
             dao.insertUser(user);
             connection.commit();
         } catch (SQLException e) {

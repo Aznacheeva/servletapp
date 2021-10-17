@@ -22,12 +22,16 @@ public class Executor {
                            ResultHandler<T> handler)
             throws SQLException {
         Statement statement = connection.createStatement();
-        statement.execute(query);
-        ResultSet resultSet = statement.getResultSet();
-        T value = handler.handle(resultSet);
-        resultSet.close();
-        statement.close();
-
-        return value;
+        try {
+            statement.execute(query);
+            ResultSet resultSet = statement.getResultSet();
+            T value = handler.handle(resultSet);
+            resultSet.close();
+            statement.close();
+            return value;
+        } catch (SQLException e) {
+            statement.close();
+            return null;
+        }
     }
 }
