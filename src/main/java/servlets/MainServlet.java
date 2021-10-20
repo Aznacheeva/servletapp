@@ -1,8 +1,8 @@
 package servlets;
 
 import acccounts.AccountService;
-import acccounts.UserProfile;
 import acccounts.Verification;
+import acccounts.UsersDataSet;
 import files.FileDescription;
 
 import javax.servlet.ServletException;
@@ -23,20 +23,20 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String sessionId = req.getSession().getId();
-        UserProfile userProfile = AccountService.getUserBySessionId(sessionId);
-        if (userProfile == null) {
+        UsersDataSet user = AccountService.getUserBySessionId(sessionId);
+        if (user == null) {
             resp.sendRedirect("/login");
             return;
         }
         String path = req.getParameter("path");
         File dir;
         if (path == null) {
-            dir = new File(homeDirectory + userProfile.getLogin());
+            dir = new File(homeDirectory + user.getLogin());
             Verification.CheckDir(dir);
         }
         else {
             dir = new File(path);
-            if (Verification.DirectoryIsInvisible(userProfile.getLogin(),
+            if (Verification.DirectoryIsInvisible(user.getLogin(),
                     homeDirectory, dir.getAbsolutePath())) {
                 req.getRequestDispatcher("warning.jsp").forward(req, resp);
                 return;

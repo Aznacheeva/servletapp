@@ -1,70 +1,70 @@
 package dbService;
 
-import acccounts.UserProfile;
-import dbService.dao.UsersDao;
-
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import acccounts.UsersDataSet;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 public class DBService {
-    private static Connection connection = null;
+    private static final String hibernate_show_sql = "true";
+    private static final String hibernate_hbm2ddl_auto = "update";
 
-    static {
-        createConnection();
-        UsersDao dao = new UsersDao(connection);
-        try {
-            dao.createTable();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    private static SessionFactory sessionFactory;
+
+    public DBService() {
+        if (sessionFactory == null)
+            sessionFactory = createSessionFactory(getMySqlConfiguration());
     }
 
-    private static void createConnection() {
-        if (connection != null) return;
-        try {
-            DriverManager.registerDriver((Driver)Class.forName("com.mysql.jdbc.Driver").newInstance());
+    @SuppressWarnings("UnusedDeclaration")
+    private org.hibernate.cfg.Configuration getMySqlConfiguration() {
+        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
+        configuration.addAnnotatedClass(UsersDataSet.class);
 
-            StringBuilder url = new StringBuilder();
-
-            url.
-                    append("jdbc:mysql://").        //db type
-                    append("localhost:").           //host name
-                    append("3306/").                //port
-                    append("java_servlets?").            //db name
-                    append("user=root&").          //login
-                    append("password=oracleshot");       //password
-            connection = DriverManager.getConnection(url.toString());
-        } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
+        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/java_servlets");
+        configuration.setProperty("hibernate.connection.username", "root");
+        configuration.setProperty("hibernate.connection.password", "oracleshot");
+        configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
+        configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
+        return configuration;
     }
 
 
-    public static UserProfile getUser(String login){
+    public UsersDataSet getUser(String login) {
         try {
-            return (new UsersDao(connection).get(login));
-        } catch (SQLException e) {
+            Session session = sessionFactory.openSession();
+            UsersDao dao = new UsersDao(session);
+            UsersDataSet user = dao.get(login);
+            session.close();
+            return user;
+        } catch (HibernateException e) {
             return null;
         }
     }
 
-    public static void addUser(UserProfile user){
+    public void addUser(UsersDataSet usersDataSet) {
         try {
-            connection.setAutoCommit(false);
-            UsersDao dao = new UsersDao(connection);
-            dao.insertUser(user);
-            connection.commit();
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException ignore) {}
-        } finally {
-            try {
-                connection.setAutoCommit(true);
-            } catch (SQLException ignore) {
-            }
+            Session session = sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
+            UsersDao dao = new UsersDao(session);
+            dao.insertUser(usersDataSet);
+            transaction.commit();
+            session.close();
+        } catch (HibernateException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    private static SessionFactory createSessionFactory(Configuration configuration) {
+        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
+        builder.applySettings(configuration.getProperties());
+        ServiceRegistry serviceRegistry = builder.build();
+        return configuration.buildSessionFactory(serviceRegistry);
     }
 }

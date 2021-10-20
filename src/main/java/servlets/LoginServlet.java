@@ -1,9 +1,9 @@
 package servlets;
 
 import acccounts.AccountService;
-import acccounts.UserProfile;
 import acccounts.Verification;
 import dbService.DBService;
+import acccounts.UsersDataSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
         String sessionId = req.getSession().getId();
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        UserProfile user = DBService.getUser(login);
+        UsersDataSet user = new DBService().getUser(login);
         if (user == null || !password.equals(user.getPassword()))
             return;
         AccountService.addSession(sessionId, user);

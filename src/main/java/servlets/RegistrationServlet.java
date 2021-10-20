@@ -1,9 +1,9 @@
 package servlets;
 
 import acccounts.AccountService;
-import acccounts.UserProfile;
 import acccounts.Verification;
 import dbService.DBService;
+import acccounts.UsersDataSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,9 +33,9 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email");
         if (Verification.loginOrPassIsEmpty(login, password, resp))
             return;
-        UserProfile userProfile = new UserProfile(login, password, email);
-        DBService.addUser(userProfile);
-        AccountService.addSession(sessionId, userProfile);
+        UsersDataSet user = new UsersDataSet(login, password, email);
+        new DBService().addUser(user);
+        AccountService.addSession(sessionId, user);
         resp.sendRedirect("/files");
     }
 }
